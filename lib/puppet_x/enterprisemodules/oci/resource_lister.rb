@@ -29,6 +29,8 @@ module Puppet_X
                             resources_in_vncs(compartment_id)
                           when :db_systems
                             resources_in_db_systems(compartment_id)
+                          when :systems
+                            resources_in_systems(compartment_id)
                           when :protocol
                             resources_in_protocol(compartment_id)
                           when :availability_domains
@@ -117,6 +119,20 @@ module Puppet_X
               handle_authorisation_errors(compartment_id) do
                 Puppet.debug "Inspecting database #{db_system_id}..."
                 client.send("list_#{object_type_plural}", compartment_id, :db_system_id => db_system_id).data
+              end
+            end
+          end.flatten.compact.uniq(&:id)
+        end
+        # rubocop: enable Metrics/AbcSize
+
+        # rubocop: disable Metrics/AbcSize
+        def resources_in_systems(specified_compartment)
+          compartment_list(specified_compartment).collect do |compartment_id|
+            Puppet.debug "Inspecting compartment #{@resolver.ocid_to_full_name(@tenant, compartment_id)} for #{object_type_plural}..."
+            db_systems_in(compartment_id).collect do |system_id|
+              handle_authorisation_errors(compartment_id) do
+                Puppet.debug "Inspecting database #{system_id}..."
+                client.send("list_#{object_type_plural}", compartment_id, :system_id => system_id).data
               end
             end
           end.flatten.compact.uniq(&:id)
