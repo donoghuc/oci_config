@@ -20,6 +20,8 @@ AllCops:
     - 'pkg/**/*'
     - 'bin/*'
 
+Metrics:
+  Enabled: false
 Lint/MixedRegexpCaptureTypes:
   Enabled: true       # (0.85)
 Style/RedundantRegexpCharacterClass:

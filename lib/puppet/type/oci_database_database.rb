@@ -16,10 +16,10 @@ Puppet::Type.newtype(:oci_database_database) do
 
   DESC
 
-  full_regexp           = Regexp.new("^((.*) \\(root\\)\\/(.*)\\/(.*):(.*))$")
+  full_regexp = Regexp.new('^((.*) \\(root\\)\\/(.*)\\/(.*):(.*))$')
 
   map_titles_to_attributes([
-                             full_regexp, [:name, :tenant, :compartment, :db_system, :database_name],
+                             full_regexp, [:name, :tenant, :compartment, :db_system, :database_name]
                            ])
 
   ensurable
