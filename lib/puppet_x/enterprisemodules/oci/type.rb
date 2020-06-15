@@ -62,6 +62,9 @@ module Puppet_X
           @oci_api_data = @oci_api_data.to_oci
           handle_oci_request do
             @oci_api_data = case object_type
+                            when 'db_system'
+                              launch_details = launch_class.new(@oci_api_data)
+                              client.launch_db_system(launch_details)
                             when 'instance'
                               launch_details = launch_class.new(@oci_api_data)
                               client.launch_instance(launch_details)
